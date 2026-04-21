@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package projectpizza.poo.modelo;
+package projectpizza.poo.controlador;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,5 +27,9 @@ public class Conexion {
             System.out.println("Error de conexión: " + e.getMessage());
         }
         return con;
+    }
+
+    static Connection getConexion() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
