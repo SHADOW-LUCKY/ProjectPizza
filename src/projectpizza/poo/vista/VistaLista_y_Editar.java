@@ -14,7 +14,12 @@ public class VistaLista_y_Editar extends javax.swing.JFrame {
      * Creates new form VistaLista_y_Editar
      */
     public VistaLista_y_Editar() {
-        initComponents();
+      
+    initComponents();
+    setLocationRelativeTo(null); // Centrar
+    // IMPORTANTE: Solo cierra esta ventana, no el programa completo
+    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
     }
 
     /**

@@ -171,11 +171,27 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnlistaryeditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlistaryeditarActionPerformed
+                                                  
+    // 1. Instanciar la vista de la tabla
+    VistaLista_y_Editar ventanaLista = new VistaLista_y_Editar();
+    
+    // 2. Hacerla visible
+    ventanaLista.setVisible(true);
+    
+    // Opcional: Si quieres que la principal desaparezca mientras editas:
+    // this.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnlistaryeditarActionPerformed
 
     private void btncrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncrearActionPerformed
-        // 
+// 1. Creamos el objeto de la ventana del formulario
+    VistaFormCrear ventanaCrear = new VistaFormCrear();
+    
+    // 2. La hacemos visible
+    ventanaCrear.setVisible(true);
+    
+    // 3. Centrarla (opcional, por si olvidaste ponerlo en su constructor)
+    ventanaCrear.setLocationRelativeTo(null);        // 
     }//GEN-LAST:event_btncrearActionPerformed
 
     private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed

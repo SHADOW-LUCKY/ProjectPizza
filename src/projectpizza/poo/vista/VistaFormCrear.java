@@ -56,7 +56,7 @@ public class VistaFormCrear extends javax.swing.JFrame {
 
         txtnombre.setHorizontalAlignment(javax.swing.JTextField.LEFT);
 
-        txtprecio.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtprecio.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         txtprecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtprecioActionPerformed(evt);
@@ -78,19 +78,17 @@ public class VistaFormCrear extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 21, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                    .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(txtprecio, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnguardar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap()))))
+                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnguardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,21 +105,20 @@ public class VistaFormCrear extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnguardar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnguardar)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -142,31 +139,40 @@ public class VistaFormCrear extends javax.swing.JFrame {
     );
 
     // 2. Si el usuario selecciona "SÍ"
-    if (confirmacion == JOptionPane.YES_OPTION) {
-        
-        try {
-            // Capturar datos de los campos (ajusta los nombres de tus variables)
-            String nombre = txtnombre.getText();
-            double precio = Double.parseDouble(txtprecio.getText());
-            String descripcion = TaDescripcion.getText();
-
-            // Aquí iría la lógica para enviar a la base de datos o lista
-            System.out.println("Guardando: " + nombre + " - $" + precio);
-
-            // Avisar que se guardó con éxito
-            JOptionPane.showMessageDialog(this, "Pizza guardada exitosamente.");
-            
-            // Cerrar el formulario y volver a la principal
-            this.dispose(); 
-            
-        } catch (NumberFormatException e) {
-            // Error si el precio no es un número válido
-            JOptionPane.showMessageDialog(this, "Por favor, ingresa un precio numérico válido.", "Error de datos", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        // Si selecciona "NO", no hacemos nada y el usuario puede seguir editando
-        System.out.println("Guardado cancelado por el usuario.");
+  if (confirmacion == JOptionPane.YES_OPTION) {
+    
+    // 1. Validar primero que los campos de texto no estén vacíos
+    // Usamos .trim() para ignorar si el usuario solo puso espacios en blanco
+    if (txtnombre.getText().trim().isEmpty() || TaDescripcion.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(this, 
+            "El nombre y la descripción no pueden estar vacíos.", 
+            "Campos faltantes", 
+            JOptionPane.WARNING_MESSAGE);
+        return; // Detiene la ejecución para que no intente guardar
     }
+
+    try {
+        // 2. Ahora sí capturamos los datos
+        String nombre = txtnombre.getText().trim();
+        String descripcion = TaDescripcion.getText().trim();
+        
+        // El error de "precio" solo saltará si este paso falla
+        double precio = Double.parseDouble(txtprecio.getText());
+
+        // Lógica de guardado
+        System.out.println("Guardando: " + nombre + " - $" + precio);
+
+        JOptionPane.showMessageDialog(this, "Pizza guardada exitosamente.");
+        this.dispose(); 
+        
+    } catch (NumberFormatException e) {
+        // Este catch ahora solo se encargará exclusivamente del error en el precio
+        JOptionPane.showMessageDialog(this, 
+            "Por favor, ingresa un precio numérico válido (ejemplo: 12500.50).", 
+            "Error en el precio", 
+            JOptionPane.ERROR_MESSAGE);
+    }
+}
     }//GEN-LAST:event_btnguardarActionPerformed
 
     /**
