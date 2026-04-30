@@ -10,6 +10,7 @@ import java.util.List;
 import projectpizza.poo.modelo.Pizza;
 
 public class PizzaDAO {
+
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
@@ -63,6 +64,7 @@ public class PizzaDAO {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
+            System.out.println(e.toString());
             return false;
         }
     }

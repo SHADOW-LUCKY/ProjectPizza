@@ -4,6 +4,8 @@
  */
 package projectpizza.poo.vista;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author usuario
@@ -14,12 +16,36 @@ public class VistaLista_y_Editar extends javax.swing.JFrame {
      * Creates new form VistaLista_y_Editar
      */
     public VistaLista_y_Editar() {
-      
-    initComponents();
-    setLocationRelativeTo(null); // Centrar
-    // IMPORTANTE: Solo cierra esta ventana, no el programa completo
-    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        initComponents();
+        setResizable(false);
+        setLocationRelativeTo(null);
+        tbl_pizza.setRowHeight(40);
+        listarPizzas();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+    }
+
+    public void listarPizzas() {
+        projectpizza.poo.controlador.PizzaDAO dao = new projectpizza.poo.controlador.PizzaDAO();
+        java.util.List<projectpizza.poo.modelo.Pizza> lista = dao.read();
+
+        tbl_pizza.getColumnModel().getColumn(0).setPreferredWidth(30); 
+        tbl_pizza.getColumnModel().getColumn(1).setPreferredWidth(150); 
+        tbl_pizza.getColumnModel().getColumn(2).setPreferredWidth(80); 
+        tbl_pizza.getColumnModel().getColumn(3).setPreferredWidth(400); 
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tbl_pizza.getModel();
+        model.setRowCount(0);
+
+        // Add rows
+        Object[] ob = new Object[4];
+        for (int i = 0; i < lista.size(); i++) {
+            ob[0] = lista.get(i).getId(); // You should add an ID column to your table model in NetBeans
+            ob[1] = lista.get(i).getNombre();
+            ob[2] = lista.get(i).getPrecio();
+            ob[3] = lista.get(i).getDescripcion();
+            model.addRow(ob);
+        }
     }
 
     /**
@@ -39,69 +65,141 @@ public class VistaLista_y_Editar extends javax.swing.JFrame {
         btneliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tbl_pizza.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "NOMBRE", "PRECIO", "DESCRIPCIÒN"
+                "ID", "NOMBRE", "PRECIO", "DESCRIPCIÒN"
             }
         ));
+        tbl_pizza.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(tbl_pizza);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 300));
-
         btneditar.setText("EDITAR");
+        btneditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneditarActionPerformed(evt);
+            }
+        });
 
         btneliminar.setText("ELIMINAR");
+        btneliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
+                .addContainerGap(136, Short.MAX_VALUE)
                 .addComponent(btneditar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addGap(132, 132, 132)
                 .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75))
+                .addGap(127, 127, 127))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btneditar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                    .addComponent(btneliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btneditar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 510, 100));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btneditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditarActionPerformed
+        int fila = tbl_pizza.getSelectedRow();
+
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione la fila de la pizza que desea editar.");
+        } else {
+            // 1. Get current data from the table
+            int id = Integer.parseInt(tbl_pizza.getValueAt(fila, 0).toString());
+            String nombreActual = tbl_pizza.getValueAt(fila, 1).toString();
+            String precioActual = tbl_pizza.getValueAt(fila, 2).toString();
+            String descActual = tbl_pizza.getValueAt(fila, 3).toString();
+
+            // 2. Ask for new data (Simple version using InputDialogs)
+            String nuevoNombre = JOptionPane.showInputDialog(this, "Nombre de la pizza:", nombreActual);
+            String nuevoPrecio = JOptionPane.showInputDialog(this, "Precio:", precioActual);
+            String nuevaDesc = JOptionPane.showInputDialog(this, "Descripción:", descActual);
+
+            if (nuevoNombre != null && nuevoPrecio != null && nuevaDesc != null) {
+                try {
+                    // 3. Create object and call DAO
+                    projectpizza.poo.modelo.Pizza p = new projectpizza.poo.modelo.Pizza();
+                    p.setId(id);
+                    p.setNombre(nuevoNombre);
+                    p.setPrecio(Double.parseDouble(nuevoPrecio));
+                    p.setDescripcion(nuevaDesc);
+
+                    projectpizza.poo.controlador.PizzaDAO dao = new projectpizza.poo.controlador.PizzaDAO();
+                    if (dao.update(p)) {
+                        JOptionPane.showMessageDialog(this, "Pizza actualizada con éxito");
+                        listarPizzas(); // Refresh table
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Error: El precio debe ser un número.");
+                }
+            }
+        }
+    }//GEN-LAST:event_btneditarActionPerformed
+
+    private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
+        int fila = tbl_pizza.getSelectedRow();
+        if (fila == -1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+        } else {
+            // Get the ID from the first column (assuming index 0 is the ID)
+            int id = Integer.parseInt(tbl_pizza.getValueAt(fila, 0).toString());
+
+            projectpizza.poo.controlador.PizzaDAO dao = new projectpizza.poo.controlador.PizzaDAO();
+            if (dao.delete(id)) {
+                JOptionPane.showMessageDialog(this, "Pizza eliminada");
+                listarPizzas(); // Refresh the table
+            }
+        }
+    }//GEN-LAST:event_btneliminarActionPerformed
 
     /**
      * @param args the command line arguments

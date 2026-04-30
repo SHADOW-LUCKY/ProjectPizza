@@ -15,9 +15,9 @@ import java.sql.SQLException;
 public class Conexion {
     private static final String URL = "jdbc:postgresql://localhost:5432/dbpizza";
     private static final String USER = "postgres";
-    private static final String PASS = "postlucky"; // The one you set during install
+    private static final String PASS = "postlucky";
 
-    public static Connection conectar() {
+    public static Connection getConexion() {
         Connection con = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -29,7 +29,4 @@ public class Conexion {
         return con;
     }
 
-    static Connection getConexion() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

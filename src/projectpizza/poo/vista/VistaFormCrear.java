@@ -18,9 +18,8 @@ public class VistaFormCrear extends javax.swing.JFrame {
     public VistaFormCrear() {
         initComponents();
         setLocationRelativeTo(null); // Centrar
+        setResizable(false);
 
-        // IMPORTANTE: Usa DISPOSE_ON_CLOSE para que al cerrar el formulario 
-        // no se cierre TODA la aplicación, solo esa ventanita.
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
@@ -129,50 +128,49 @@ public class VistaFormCrear extends javax.swing.JFrame {
     }//GEN-LAST:event_txtprecioActionPerformed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
-       // 1. Mostrar mensaje de confirmación
-    int confirmacion = JOptionPane.showConfirmDialog(
-        this, 
-        "¿Deseas guardar esta pizza con los datos ingresados?", 
-        "Confirmar Registro", 
-        JOptionPane.YES_NO_OPTION, 
-        JOptionPane.QUESTION_MESSAGE
-    );
+        // 1. Mostrar mensaje de confirmación
+        int confirmacion = JOptionPane.showConfirmDialog(
+                this,
+                "¿Deseas guardar esta pizza con los datos ingresados?",
+                "Confirmar Registro",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
 
-    // 2. Si el usuario selecciona "SÍ"
-  if (confirmacion == JOptionPane.YES_OPTION) {
-    
-    // 1. Validar primero que los campos de texto no estén vacíos
-    // Usamos .trim() para ignorar si el usuario solo puso espacios en blanco
-    if (txtnombre.getText().trim().isEmpty() || TaDescripcion.getText().trim().isEmpty()) {
-        JOptionPane.showMessageDialog(this, 
-            "El nombre y la descripción no pueden estar vacíos.", 
-            "Campos faltantes", 
-            JOptionPane.WARNING_MESSAGE);
-        return; // Detiene la ejecución para que no intente guardar
-    }
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            // Validation
+            if (txtnombre.getText().trim().isEmpty() || TaDescripcion.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El nombre y la descripción no pueden estar vacíos.", "Campos faltantes", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-    try {
-        // 2. Ahora sí capturamos los datos
-        String nombre = txtnombre.getText().trim();
-        String descripcion = TaDescripcion.getText().trim();
-        
-        // El error de "precio" solo saltará si este paso falla
-        double precio = Double.parseDouble(txtprecio.getText());
+            try {
+                // 2. Capture data
+                String nombre = txtnombre.getText().trim();
+                String descripcion = TaDescripcion.getText().trim();
+                double precio = Double.parseDouble(txtprecio.getText());
 
-        // Lógica de guardado
-        System.out.println("Guardando: " + nombre + " - $" + precio);
+                // --- THE NEW PART: TALKING TO THE DATABASE ---
+                // 1. Crear el objeto
+                projectpizza.poo.modelo.Pizza p = new projectpizza.poo.modelo.Pizza();
+                p.setNombre(nombre);
+                p.setPrecio(precio);
+                p.setDescripcion(descripcion);
 
-        JOptionPane.showMessageDialog(this, "Pizza guardada exitosamente.");
-        this.dispose(); 
-        
-    } catch (NumberFormatException e) {
-        // Este catch ahora solo se encargará exclusivamente del error en el precio
-        JOptionPane.showMessageDialog(this, 
-            "Por favor, ingresa un precio numérico válido (ejemplo: 12500.50).", 
-            "Error en el precio", 
-            JOptionPane.ERROR_MESSAGE);
-    }
-}
+                // 2. Interaccion con el DAO
+                projectpizza.poo.controlador.PizzaDAO dao = new projectpizza.poo.controlador.PizzaDAO();
+
+                if (dao.create(p)) {
+                    JOptionPane.showMessageDialog(this, "¡Pizza guardada exitosamente en la base de datos!");
+                    this.dispose(); // Close window after success
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error: No se pudo conectar con la base de datos.", "Error de SQL", JOptionPane.ERROR_MESSAGE);
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Ingresa un precio numérico válido.", "Error en el precio", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnguardarActionPerformed
 
     /**

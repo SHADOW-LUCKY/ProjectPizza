@@ -21,10 +21,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public VistaPrincipal() {
         initComponents();
         
-        // Centrar la ventana en la pantalla
+        setResizable(false);
         setLocationRelativeTo(null);
         
-        // 1. IMPORTANTE: Evitar que la ventana se cierre sola al presionar la 'X'
+        // 1. Evitar que la ventana se cierre sola al presionar la 'X'
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         
         // 2. Escuchar el evento de cierre de la ventana (la 'X' de arriba)
