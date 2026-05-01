@@ -1,0 +1,117 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict L80JqIA1YhEenSg2T4h0AraIuMr7D4qehOka6aOTFy2qqpyW5BBQVizMjSV55qD
+
+-- Dumped from database version 18.3
+-- Dumped by pg_dump version 18.3
+
+-- Started on 2026-05-01 15:44:23
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 220 (class 1259 OID 16389)
+-- Name: pizza; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.pizza (
+    pizza_id integer NOT NULL,
+    nombre_pizza character varying(100) NOT NULL,
+    precio_pizza double precision NOT NULL,
+    desc_pizza character varying(500)
+);
+
+
+ALTER TABLE public.pizza OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 16388)
+-- Name: pizza_pizza_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.pizza_pizza_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.pizza_pizza_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 5013 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: pizza_pizza_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.pizza_pizza_id_seq OWNED BY public.pizza.pizza_id;
+
+
+--
+-- TOC entry 4856 (class 2604 OID 16392)
+-- Name: pizza pizza_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pizza ALTER COLUMN pizza_id SET DEFAULT nextval('public.pizza_pizza_id_seq'::regclass);
+
+
+--
+-- TOC entry 5007 (class 0 OID 16389)
+-- Dependencies: 220
+-- Data for Name: pizza; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.pizza (pizza_id, nombre_pizza, precio_pizza, desc_pizza) FROM stdin;
+1	Pepperoni Classic	12.5	Mozzarella and pepperoni
+3	Margherita Supreme	10.99	Classic Italian style with fresh basil, mozzarella di bufala, and extra virgin olive oil on a thin crust.
+4	Meat Lovers Deluxe	15.5	A heavy combination of pepperoni, Italian sausage, smoked ham, crispy bacon, and seasoned ground beef.
+5	Garden Veggie Special	12	Loaded with fresh bell peppers, red onions, black olives, mushrooms, and spinach on a whole wheat base.
+6	Hawaiian Tropical	13.25	The controversial classic featuring sweet pineapple chunks, savory ham, and an extra layer of mozzarella.
+7	BBQ Chicken Ranch	14.75	Grilled chicken breast with tangy BBQ sauce, red onions, and a drizzle of creamy ranch dressing.
+\.
+
+
+--
+-- TOC entry 5014 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: pizza_pizza_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.pizza_pizza_id_seq', 7, true);
+
+
+--
+-- TOC entry 4858 (class 2606 OID 16397)
+-- Name: pizza pizza_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.pizza
+    ADD CONSTRAINT pizza_pkey PRIMARY KEY (pizza_id);
+
+
+-- Completed on 2026-05-01 15:44:24
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict L80JqIA1YhEenSg2T4h0AraIuMr7D4qehOka6aOTFy2qqpyW5BBQVizMjSV55qD
+
